@@ -1,0 +1,115 @@
+##################################
+########### PARAMETERS ###########
+##################################
+# GENERAL PARAMETERS
+my_constants.lambda = 0.8e-6
+my_constants.mc2 = 0.510998950e6
+my_constants.pemr = 1836.15267343
+my_constants.n_crit = (m_e*epsilon0*(2*pi*clight)^2)/((q_e*lambda)^2)
+my_constants.fs = 1.0e-15
+my_constants.um = 1.0e-6
+
+# BOX
+my_constants.Lx = 102.4*um
+my_constants.Ly = 51.2*um
+my_constants.resx = 20. # pxmicron
+my_constants.resy = 20.
+my_constants.nx = Lx*resx/um
+my_constants.ny = Ly*resy/um
+
+# TIME 
+my_constants.Tsim = 1.5*Lx/clight
+my_constants.dt_multi = 0.98
+my_constants.dt = um/clight*dt_multi/sqrt(resx^2+resy^2)
+
+# LASER PARAMETERS
+my_constants.a0 = 20 
+my_constants.waist = 3*um
+my_constants.intensity_fwhm = 30.0*fs
+my_constants.delay_peak = 60.0*fs 
+my_constants.focal_dist = Lx*0.5 
+
+# DIAGNOSTIC PARAMETERS
+my_constants.every_fs = floor(fs/dt)
+my_constants.timescalar = 1*every_fs
+my_constants.timefields = 10*every_fs
+
+#################################
+############# SETUP #############
+#################################
+stop_time = Tsim
+amr.n_cell = nx ny
+amr.max_level = 0 
+geometry.dims   = 2
+geometry.prob_lo = 0. 0.
+geometry.prob_hi = Lx Ly 
+
+#################################
+####### Boundary condition ######
+#################################
+boundary.field_lo = pml Periodic 
+boundary.field_hi = pml Periodic 
+boundary.particle_lo = Reflecting Periodic 
+boundary.particle_hi = Reflecting Periodic 
+
+#################################
+############ NUMERICS ###########
+#################################
+warpx.verbose = 1
+warpx.do_dive_cleaning = 0
+warpx.use_filter = 0
+warpx.cfl = dt_multi
+algo.particle_shape = 3
+algo.maxwell_solver = yee
+algo.current_deposition = esirkepov
+algo.particle_pusher = boris 
+algo.field_gathering = energy-conserving 
+
+####################################
+############ PERFORMANCE ###########
+####################################
+algo.load_balance_intervals = 0
+algo.load_balance_costs_update = Heuristic
+amr.max_grid_size = 2048
+amr.blocking_factor = 4
+warpx.verbose = 1
+amrex.abort_on_out_of_gpu_memory = 1
+warpx.do_dynamic_scheduling = 1
+
+#################################
+############# LASER #############
+#################################
+lasers.names = laser1
+laser1.position = Lx/nx 0. Ly*0.5
+laser1.direction = 1. 0. 0.    
+laser1.polarization = 0. 0. 1.     
+laser1.a0 = a0
+laser1.wavelength = lambda
+laser1.profile = Gaussian
+laser1.profile_waist = waist      
+laser1.profile_duration = intensity_fwhm/1.17741
+laser1.profile_t_peak = delay_peak    
+laser1.profile_focal_distance = focal_dist
+
+#################################
+############# OUTPUT ############
+#################################
+# FIELDS
+diagnostics.diags_names = Fields
+Fields.format=openpmd
+Fields.openpmd_backend=bp
+Fields.openpmd_encoding=f
+Fields.intervals = timefields
+Fields.diag_type = Full
+Fields.dump_last_timestep = 1
+Fields.fields_to_plot = Ez
+
+# SCALARS
+warpx.reduced_diags_names = FieldEnergy FieldMomentum FieldMaximum
+FieldEnergy.type= FieldEnergy
+FieldEnergy.intervals=timescalar
+FieldMomentum.type= FieldMomentum
+FieldMomentum.intervals=timescalar
+FieldMaximum.type= FieldMaximum
+FieldMaximum.intervals=timescalar
+

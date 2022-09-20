@@ -1,0 +1,11 @@
+*.png
+*.pdf
+smilei
+epoch1d
+epoch2d
+warpx.2*
+warpx.1*
+*.h5
+*.sdf
+*.bp
+*.pmd
