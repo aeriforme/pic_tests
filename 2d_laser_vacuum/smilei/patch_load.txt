@@ -1,0 +1,5 @@
+Target load = 1024
+patch count = 1024
+patch count = 1024
+patch count = 1024
+patch count = 1024

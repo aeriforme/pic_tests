@@ -1,6 +1,7 @@
 *.png
 *.pdf
 smilei
+!smilei/
 epoch1d
 epoch2d
 warpx.2*
