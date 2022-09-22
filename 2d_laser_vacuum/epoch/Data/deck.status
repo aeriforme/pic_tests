@@ -1,4 +1,4 @@
- EPOCH2D v4.17.16   v4.17.16-0-g3088d845-clean 1663669577.159          
+ EPOCH2D v4.17.16   v4.17.16-0-g3088d845-clean 1663853781.667          
 
 Deck state:  1
 
@@ -17,7 +17,7 @@ Deck state:  1
  	Element simulation_time=1.5*box_size_x/c handled OK
  	Element cfl=0.98 handled OK
  	Element dt=1./c * cfl/sqrt((1./dx)^2+(1./dy)^2) handled OK
- 	Element delay_peak=150.*femto handled OK
+ 	Element delay_peak=60.*femto handled OK
  	Element laser_fwhm=30.*femto handled OK
  	Element laser_tau=laser_fwhm/1.17741 handled OK
  	Element a0=20. handled OK
@@ -121,7 +121,7 @@ Deck state:  2
  	Element simulation_time=1.5*box_size_x/c handled OK
  	Element cfl=0.98 handled OK
  	Element dt=1./c * cfl/sqrt((1./dx)^2+(1./dy)^2) handled OK
- 	Element delay_peak=150.*femto handled OK
+ 	Element delay_peak=60.*femto handled OK
  	Element laser_fwhm=30.*femto handled OK
  	Element laser_tau=laser_fwhm/1.17741 handled OK
  	Element a0=20. handled OK

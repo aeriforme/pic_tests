@@ -20,7 +20,7 @@ begin:constant
   dt = 1./c * cfl/sqrt((1./dx)^2+(1./dy)^2)
 
 # LASER PARAMETERS
-  delay_peak = 150.*femto
+  delay_peak = 60.*femto
   laser_fwhm = 30.*femto #FWHM intensity
   laser_tau = laser_fwhm/1.17741
   a0=20.  
