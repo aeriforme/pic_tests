@@ -1,0 +1,132 @@
+begin:constant
+
+# GENERAL PARAMETERS
+  lambda_l = 0.8 * micron # wavelength
+  omega_l = 2.0 * pi * c / lambda_l
+  n_crit = critical(omega_l)
+  optical_cycle = lambda_l / c
+ 
+# BOX PARAMETERS
+  n_of_um_x = 70 # how many microns
+  p_per_um_x = 20 # points per microns 
+  box_size_x = n_of_um_x*micron
+  n_of_um_y = 30 
+  p_per_um_y = 20 
+  box_size_y = n_of_um_y*micron
+
+# TIME
+  simulation_time = 1.5*box_size_x/c
+  cfl = 0.98
+  dt = 1./c * cfl/sqrt((1./dx)^2+(1./dy)^2)
+
+# LASER PARAMETERS
+  delay_peak = 60.*femto
+  laser_fwhm = 30.*femto #FWHM intensity
+  laser_tau = laser_fwhm/1.17741
+  laser_length = 2*c*(laser_fwhm*sqrt(2))
+  a0=20.  
+  waist=3.*micron 
+  x_spot = laser_length 
+  d_spot = x_min-x_spot
+  y_spot = 0.5*box_size_y
+  w_0 = waist
+  x_R = pi * w_0^2/lambda_l
+  RC = d_spot * (1.0 + (x_R/d_spot)^2)
+  w_bnd = w_0 * sqrt( 1.0 + (d_spot/x_R)^2)
+  gouy = 0.5*atan(d_spot/x_R)
+
+# PLASMA PARAMETERS
+  Z = 1
+  A = 1 
+  nppc = 2
+  ne0 = 0.01*n_crit 
+  target_start = laser_length 
+
+# DIAGNOSTICS
+  every_fs = 1*femto/dt
+  timescalars = 1*every_fs
+  timefields = 10*every_fs
+
+end:constant
+
+begin:control
+  nx = n_of_um_x * p_per_um_x 
+  ny = n_of_um_y * p_per_um_y 
+  dt_multiplier = cfl
+  t_end = simulation_time
+  x_min = 0
+  x_max = box_size_x
+  y_min = 0
+  y_max = box_size_y
+  stdout_frequency = 100
+end:control
+
+begin:boundaries
+  bc_x_min_field = simple_laser 
+  bc_x_max_field = simple_outflow
+  bc_y_min_field = periodic
+  bc_y_max_field = periodic
+  bc_x_min_particle=open 
+  bc_x_max_particle=open
+  bc_y_min_particle=periodic
+  bc_y_max_particle=periodic
+end:boundaries
+
+begin:laser
+  boundary = x_min
+  lambda = lambda_l
+  t_start = 0.0 
+  intensity_w_cm2 = (a0*me*2*pi)^2*c^5*epsilon0*1e-4/(2.0*(lambda_l*qe)^2)       
+  profile = (1/( 1.0 + (d_spot/x_R)^2))^(1/4)*gauss(y, y_spot, w_bnd)
+  phase = -2.0 * pi/ lambda_l * (y-y_spot)^2 / (2.0 * RC)   #+gouy
+  polarisation_angle = 0.0       
+  t_profile = gauss(time, delay_peak, laser_tau)   
+end:laser
+
+begin:species
+   name = ele
+   charge = -1.0
+   mass = 1.0
+   nparticles_per_cell = nppc
+   number_density = if(x gt target_start, ne0, 0.0)
+   identify:electron
+end:species
+
+begin:species
+   name = ion
+   charge = 1.0 * Z
+   mass = 1836.0 * A
+   atomic_number = Z
+   nparticles_per_cell = nppc
+   number_density = number_density(ele)/Z
+end:species
+
+
+
+begin:output
+  name = scalars
+  file_prefix=scalars
+  nstep_snapshot = timescalars
+  dump_first=T
+  total_energy_sum = always + species 
+end:output
+
+begin:output
+  name = fields
+  file_prefix=fields
+  nstep_snapshot = timefields
+  dump_first=T
+  # Properties on grid
+  grid = always
+  ex = never
+  ey = always
+  ez = never
+  bx = never
+  by = never
+  bz = always
+  poynting_flux=never
+  number_density = always + species
+end:output
+
+
+

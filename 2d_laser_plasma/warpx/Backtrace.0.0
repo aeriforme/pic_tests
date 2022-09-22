@@ -1,0 +1,55 @@
+=== If no file names and line numbers are shown below, one can run
+            addr2line -Cpfie my_exefile my_line_address
+    to convert `my_line_address` (e.g., 0x4a6b) into file name and line number.
+    Or one can use amrex/Tools/Backtrace/parse_bt.py.
+
+=== Please note that the line number reported by addr2line may not be accurate.
+    One can use
+            readelf -wl my_exefile | grep my_line_address'
+    to find out the offset for that line.
+
+ 0: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0x477a3e) [0x55c66333ca3e]
+    ?? ??:0
+
+ 1: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0x47ab6a) [0x55c66333fb6a]
+    ?? ??:0
+
+ 2: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0x4147b7) [0x55c6632d97b7]
+    ?? ??:0
+
+ 3: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0x3dc1f0) [0x55c6632a11f0]
+    ?? ??:0
+
+ 4: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0xcc339) [0x55c662f91339]
+    ?? ??:0
+
+ 5: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0x29891b) [0x55c66315d91b]
+    ?? ??:0
+
+ 6: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0x288f08) [0x55c66314df08]
+    ?? ??:0
+
+ 7: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0x28b4b2) [0x55c6631504b2]
+    ?? ??:0
+
+ 8: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0x31adad) [0x55c6631dfdad]
+    ?? ??:0
+
+ 9: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0x2d9c04) [0x55c66319ec04]
+    ?? ??:0
+
+10: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0xb7ef3) [0x55c662f7cef3]
+    ?? ??:0
+
+11: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0xa20ef) [0x55c662f670ef]
+    ?? ??:0
+
+12: /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xea) [0x7f3d33059d0a]
+
+13: ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED(+0xad10a) [0x55c662f7210a]
+    ?? ??:0
+
+
+===== TinyProfilers ======
+main()
+
