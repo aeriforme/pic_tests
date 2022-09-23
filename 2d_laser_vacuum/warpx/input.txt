@@ -10,10 +10,10 @@ my_constants.fs = 1.0e-15
 my_constants.um = 1.0e-6
 
 # BOX
-my_constants.Lx = 102.4*um
-my_constants.Ly = 51.2*um
-my_constants.resx = 20. # pxmicron
-my_constants.resy = 20.
+my_constants.Lx = 70*um
+my_constants.Ly = 30*um
+my_constants.resx = 25. # pxmicron
+my_constants.resy = 25.
 my_constants.nx = Lx*resx/um
 my_constants.ny = Ly*resy/um
 
@@ -71,7 +71,7 @@ algo.field_gathering = energy-conserving
 algo.load_balance_intervals = 0
 algo.load_balance_costs_update = Heuristic
 amr.max_grid_size = 2048
-amr.blocking_factor = 4
+amr.blocking_factor = 2
 warpx.verbose = 1
 amrex.abort_on_out_of_gpu_memory = 1
 warpx.do_dynamic_scheduling = 1

@@ -5,19 +5,18 @@ begin:constant
   omega_l = 2.0 * pi * c / lambda_l
   n_crit = critical(omega_l)
   optical_cycle = lambda_l / c
- 
+
 # BOX PARAMETERS
-  n_of_um_x = 102.4 # how many microns
-  p_per_um_x = 20 # points per microns 
-  box_size_x = n_of_um_x*micron
-  n_of_um_y = 51.2 
-  p_per_um_y = 20 
-  box_size_y = n_of_um_y*micron
+  Lx = 70*micron 
+  Ly = 30*micron 
+  resx = 25 # points per micron 
+  resy = 25 
 
 # TIME
-  simulation_time = 1.5*box_size_x/c
+  simulation_time = 1.5*Lx/c
   cfl = 0.98
   dt = 1./c * cfl/sqrt((1./dx)^2+(1./dy)^2)
+  #dt = micron/c * cfl/sqrt( resx^2 + resy^2)
 
 # LASER PARAMETERS
   delay_peak = 60.*femto
@@ -25,9 +24,9 @@ begin:constant
   laser_tau = laser_fwhm/1.17741
   a0=20.  
   waist=3.*micron 
-  x_spot = 0.5*box_size_x
+  x_spot = 0.5*Lx
   d_spot = x_min-x_spot
-  y_spot = 0.5*box_size_y
+  y_spot = 0.5*Ly
   w_0 = waist
   x_R = pi * w_0^2/lambda_l
   RC = d_spot * (1.0 + (x_R/d_spot)^2)
@@ -42,14 +41,14 @@ begin:constant
 end:constant
 
 begin:control
-  nx = n_of_um_x * p_per_um_x 
-  ny = n_of_um_y * p_per_um_y 
+  nx = Lx*resx/micron
+  ny = Ly*resy/micron 
   dt_multiplier = cfl
   t_end = simulation_time
   x_min = 0
-  x_max = box_size_x
+  x_max = Lx
   y_min = 0
-  y_max = box_size_y
+  y_max = Ly
   stdout_frequency = 100
 end:control
 
@@ -87,7 +86,7 @@ begin:output
   name = fields
   file_prefix=fields
   nstep_snapshot = timefields
-  dump_first=T
+  dump_first = T
   # Properties on grid
   grid = always
   ex = never

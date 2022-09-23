@@ -23,9 +23,9 @@ n_crit = 1.1*1e21 / centi**(3) * (1.e-6/lambda_SI)**(2) #m^-3
 um = micron 
 #__________________________________________________________
 # simulation parameters
-Lx = 102.4*micron 
-Ly = 51.2*micron 
-resx = 20. # points per micron 
+Lx = 70*micron 
+Ly = 30*micron 
+resx = 25. # points per micron 
 nx = Lx * resx / micron 
 dx = Lx/nx
 cfl = 0.98

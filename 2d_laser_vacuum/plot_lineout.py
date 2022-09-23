@@ -24,8 +24,8 @@ my_dpi = 300
 
 #__________________________________________________________
 # simulation parameters
-Lx = 102.4*micron 
-resx = 20. # points per micron 
+Lx = 70*micron 
+resx = 25. # points per micron 
 nx = Lx * resx / micron 
 dx = Lx/nx
 
@@ -74,10 +74,7 @@ for n,ts in enumerate(steps):
     gridy_w = dz*np.arange(0,nz)/micron        	
     lineoutx_w = Ez_data[int(nz*0.5),:]
     lineouty_w = Ez_data[:,int(nx*0.5)]
-    lineouty_w1 = Ez_data[:,int(nx*0.5+1)]
-    lineouty_w2 = Ez_data[:,int(nx*0.5-1)]        
-    print('warpx shape = ', np.shape(Ez_data))
-    print('warpx max = ', np.max(Ez_data)/1e12)
+    print('warpx time [fs] = ', time)
     
     # smilei 
     Ey = s.Field(0,'Ey', units=["um", "V/m", "fs"])
@@ -88,12 +85,8 @@ for n,ts in enumerate(steps):
     gridy_s = Ey.getAxis('y')
     lineoutx_s = Ey_data[:,int(np.shape(Ey_data)[1]*0.5)]
     lineouty_s = Ey_data[int(np.shape(Ey_data)[0]*0.5),:]
-    lineouty_s1 = Ey_data[int(np.shape(Ey_data)[0]*0.5-1),:]
-    lineouty_s2 = Ey_data[int(np.shape(Ey_data)[0]*0.5+1),:]
-
-    print('smilei shape = ', np.shape(Ey_data))
-    print('smilei max = ', np.max(Ey_data)/1e12)
-
+    print('smilei time [fs] = ', time)
+    
     # epoch
     fname = epoch_dir+'fields%04d.sdf' % n
     raw = sdf.read(fname)
@@ -103,7 +96,8 @@ for n,ts in enumerate(steps):
     Ey = raw.__dict__["Electric_Field_Ey"].data
     lineoutx_e = Ey[:,int(np.shape(Ey)[1]*0.5)]
     lineouty_e = Ey[int(np.shape(Ey)[0]*0.5),:]
-
+    print('epoch time [fs] = ', time)
+        
     # plot images
     fig, ax = plt.subplots(ncols=2, nrows=1, figsize=(3000./my_dpi, 1000./my_dpi), dpi=my_dpi)
 

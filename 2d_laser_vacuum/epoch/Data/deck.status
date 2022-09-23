@@ -1,4 +1,4 @@
- EPOCH2D v4.17.16   v4.17.16-0-g3088d845-clean 1663853781.667          
+ EPOCH2D v4.17.16   v4.17.16-0-g3088d845-clean 1663945273.779          
 
 Deck state:  1
 
@@ -8,13 +8,11 @@ Deck state:  1
  	Element omega_l=2.0 * pi * c / lambda_l handled OK
  	Element n_crit=critical(omega_l) handled OK
  	Element optical_cycle=lambda_l / c handled OK
- 	Element n_of_um_x=102.4 handled OK
- 	Element p_per_um_x=20 handled OK
- 	Element box_size_x=n_of_um_x*micron handled OK
- 	Element n_of_um_y=51.2 handled OK
- 	Element p_per_um_y=20 handled OK
- 	Element box_size_y=n_of_um_y*micron handled OK
- 	Element simulation_time=1.5*box_size_x/c handled OK
+ 	Element Lx=70*micron handled OK
+ 	Element Ly=30*micron handled OK
+ 	Element resx=25 handled OK
+ 	Element resy=25 handled OK
+ 	Element simulation_time=1.5*Lx/c handled OK
  	Element cfl=0.98 handled OK
  	Element dt=1./c * cfl/sqrt((1./dx)^2+(1./dy)^2) handled OK
  	Element delay_peak=60.*femto handled OK
@@ -22,9 +20,9 @@ Deck state:  1
  	Element laser_tau=laser_fwhm/1.17741 handled OK
  	Element a0=20. handled OK
  	Element waist=3.*micron handled OK
- 	Element x_spot=0.5*box_size_x handled OK
+ 	Element x_spot=0.5*Lx handled OK
  	Element d_spot=x_min-x_spot handled OK
- 	Element y_spot=0.5*box_size_y handled OK
+ 	Element y_spot=0.5*Ly handled OK
  	Element w_0=waist handled OK
  	Element x_R=pi * w_0^2/lambda_l handled OK
  	Element RC=d_spot * (1.0 + (x_R/d_spot)^2) handled OK
@@ -38,14 +36,14 @@ Deck state:  1
 
  Beginning "control" block
 
- 	Element nx=n_of_um_x * p_per_um_x handled OK
- 	Element ny=n_of_um_y * p_per_um_y handled OK
+ 	Element nx=Lx*resx/micron handled OK
+ 	Element ny=Ly*resy/micron handled OK
  	Element dt_multiplier=cfl handled OK
  	Element t_end=simulation_time handled OK
  	Element x_min=0 handled OK
- 	Element x_max=box_size_x handled OK
+ 	Element x_max=Lx handled OK
  	Element y_min=0 handled OK
- 	Element y_max=box_size_y handled OK
+ 	Element y_max=Ly handled OK
  	Element stdout_frequency=100 handled OK
 
  Ending "control" block
@@ -112,13 +110,11 @@ Deck state:  2
  	Element omega_l=2.0 * pi * c / lambda_l handled OK
  	Element n_crit=critical(omega_l) handled OK
  	Element optical_cycle=lambda_l / c handled OK
- 	Element n_of_um_x=102.4 handled OK
- 	Element p_per_um_x=20 handled OK
- 	Element box_size_x=n_of_um_x*micron handled OK
- 	Element n_of_um_y=51.2 handled OK
- 	Element p_per_um_y=20 handled OK
- 	Element box_size_y=n_of_um_y*micron handled OK
- 	Element simulation_time=1.5*box_size_x/c handled OK
+ 	Element Lx=70*micron handled OK
+ 	Element Ly=30*micron handled OK
+ 	Element resx=25 handled OK
+ 	Element resy=25 handled OK
+ 	Element simulation_time=1.5*Lx/c handled OK
  	Element cfl=0.98 handled OK
  	Element dt=1./c * cfl/sqrt((1./dx)^2+(1./dy)^2) handled OK
  	Element delay_peak=60.*femto handled OK
@@ -126,9 +122,9 @@ Deck state:  2
  	Element laser_tau=laser_fwhm/1.17741 handled OK
  	Element a0=20. handled OK
  	Element waist=3.*micron handled OK
- 	Element x_spot=0.5*box_size_x handled OK
+ 	Element x_spot=0.5*Lx handled OK
  	Element d_spot=x_min-x_spot handled OK
- 	Element y_spot=0.5*box_size_y handled OK
+ 	Element y_spot=0.5*Ly handled OK
  	Element w_0=waist handled OK
  	Element x_R=pi * w_0^2/lambda_l handled OK
  	Element RC=d_spot * (1.0 + (x_R/d_spot)^2) handled OK
@@ -142,14 +138,14 @@ Deck state:  2
 
  Beginning "control" block
 
- 	Element nx=n_of_um_x * p_per_um_x handled OK
- 	Element ny=n_of_um_y * p_per_um_y handled OK
+ 	Element nx=Lx*resx/micron handled OK
+ 	Element ny=Ly*resy/micron handled OK
  	Element dt_multiplier=cfl handled OK
  	Element t_end=simulation_time handled OK
  	Element x_min=0 handled OK
- 	Element x_max=box_size_x handled OK
+ 	Element x_max=Lx handled OK
  	Element y_min=0 handled OK
- 	Element y_max=box_size_y handled OK
+ 	Element y_max=Ly handled OK
  	Element stdout_frequency=100 handled OK
 
  Ending "control" block

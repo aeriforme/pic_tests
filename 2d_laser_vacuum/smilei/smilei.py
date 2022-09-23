@@ -609,7 +609,7 @@ smilei_rand_max = 2**31-1
 # Variable to set to False for the actual run (useful for the test mode)
 _test_mode = True
 smilei_version='4.7-151-gebf6eb1e4-master'
-smilei_mpi_size = 4
+smilei_mpi_size = 2
 smilei_rand_max = 2147483647
 
 # Some predefined profiles (see doc)
@@ -1415,15 +1415,15 @@ t0 = 2.*pi # optical cycle
 mc2 = 0.510998950e6 # eV
 
 # BOX 
-dx = micron/20.
-Lx = 102.4*micron 
+dx = micron/25.
+Lx = 70*micron 
 nx = Lx/dx 
-npatch_x = 64
+npatch_x = 2
 
-dy = micron/20.
-Ly = 51.2*micron 
+dy = micron/25.
+Ly = 30*micron 
 ny = Ly/dy
-npatch_y = 64
+npatch_y = 2
 
 # TIME 
 cfl = 0.98
@@ -1433,8 +1433,7 @@ T_sim = 1.5*Lx
 # DIAGNOSTICS
 every_optical_cycle = int(t0/dt)
 every_fs = int(fs/dt)
-N_steps = int(T_sim / dt) 
- 
+N_steps = int(T_sim / dt)
 
 # LASER 
 a0 = 20.
@@ -1498,7 +1497,7 @@ LaserGaussian2D(
 # OUTPUTS #####
 ###############
 
-DiagScalar(every=2*every_fs)
+DiagScalar(every=1*every_fs)
 
 DiagFields(
     every =10*every_fs,
@@ -1687,4 +1686,4 @@ def _noNewComponents(cls, *args, **kwargs):
     print("Please do not create a new "+cls.__name__)
     return None
 SmileiComponent.__new__ = staticmethod(_noNewComponents)
-Main.cluster_width= 32
+Main.cluster_width= 1
