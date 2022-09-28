@@ -1,12 +1,3 @@
----
-title: EPOCH on laptop
-updated: 2022-09-27 14:26:22Z
-created: 2022-09-15 16:36:07Z
-latitude: 45.46542190
-longitude: 9.18592430
-altitude: 0.0000
----
-
 # Documentation
 https://epochpic.github.io/
 
@@ -41,22 +32,39 @@ compile
 ```
 make COMPILER=gfortran
 ```
+once this command is done you will have your epoch2d executable in `epoch/epoch2d/bin`
 
-and build the python library to read EPOCH output (called sdf)
+you can activate a number of compile-time options by modifying the `Makefile` 
+you can clean the building process with `make cleanall` (do it everytime you re-compile, just to be sure)
+
+and build the python library to read epoch output (called sdf)
 ```
 make sdfutils
 ```
 
-
-# Run 
-run on 4 cores 
-```
-echo Data | mpirun -np 4 ./epoch2d
-```
-
-# Analyze
-in a python script you can use 
+in a python script or shell you should now be able to use 
 ```
 import sdf 
 import sdf_helper as sh
 ``` 
+
+
+# Run 
+make a directory for your epoch tests `tests_epoch`
+```
+mkdir tests_epoch
+``` 
+
+make a subdirectory `Data`
+```
+cd tests_epoch 
+mkdir Data
+``` 
+
+copy in `tests_epoch` the epoch executable 
+copy in  `tests_epoch/Data`  an input file `input.deck`
+
+move to `tests_epoch` and run on 4 cores, e.g. 
+```
+echo Data | mpirun -np 4 ./epoch2d
+```

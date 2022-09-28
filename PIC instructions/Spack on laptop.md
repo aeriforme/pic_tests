@@ -1,12 +1,3 @@
----
-title: Spack on laptop
-updated: 2022-09-27 14:41:06Z
-created: 2022-09-15 15:33:00Z
-latitude: 45.46542190
-longitude: 9.18592430
-altitude: 0.0000
----
-
 # What
 software to install other software
 
@@ -35,11 +26,19 @@ load the setup script to add Spack to your path
 source share/spack/setup-env.sh
 ```
 
+you can add the source line in your `.bashrc` to avoid having to do it every time 
+
 # Usage
-check your compilers 
+add your compilers 
+```
+spack compiler find
+``` 
+
+check your compilers
 ```
 spack compilers
 ```
+
 you should see something like this 
 ```
 ==> Available compilers
@@ -49,7 +48,7 @@ gcc@8.3.0  gcc@7.4.0  gcc@7.3.0
 -- gcc debian11-x86_64 ------------------------------------------
 gcc@10.2.1
 ```
-choose your favorite compiler (maybe latest version) and always use that 
+choose your favorite compiler among those in your list (maybe latest version) and always use that 
 
 install the packages you need, for example this lets you install cmake version 3.23.3 using gcc version 10.2.1 
 ```
@@ -101,8 +100,8 @@ spack install cmake@3.23.3 %gcc@10.2.1
 spack install openmpi %gcc@10.2.1
 spack install hdf5+mpi ^openmpi %gcc@10.2.1
 spack install adios2+mpi ^openmpi %gcc@10.2.1
-spack install py-ipython
-spack install openpmd-api +python -adios1 +adios2 -hdf5 +mpi
+spack install py-ipython %gcc@10.2.1
+spack install openpmd-api +python -adios1 +adios2 -hdf5 +mpi %gcc@10.2.1
 ```
 
 # Environments
@@ -117,6 +116,15 @@ activate the environment of the code you want to use, for example
 ```
 spack env activate -p myspackwarpx
 ```
+or, its abbreviation, 
+```
+spacktivate -p myspackwarpx
+```
+
+to list all the environments you have in your system do this 
+```
+spack env list
+``` 
 
 to deactivate
 ```
@@ -126,18 +134,19 @@ despacktivate
 in every environment install the required dependencies according to this list:
 * WarpX
 ```
-spack install cmake
-spack install openmpi 
-spack install adios2
-spack install openpmd-api +python -adios1 +adios2 -hdf5 +mpi
+spack install cmake@3.23.3 %gcc@10.2.1
+spack install openmpi %gcc@10.2.1 
+spack install adios2+mpi ^openmpi %gcc@10.2.1
+spack install openpmd-api +python -adios1 +adios2 -hdf5 +mpi %gcc@10.2.1
 ```
 * Smilei
 ```
-spack install openmpi
-spack install hdf5
-spack install python
+spack install openmpi %gcc@10.2.1 
+spack install hdf5+mpi ^openmpi %gcc@10.2.1
 ``` 
 * EPOCH
 ```
-spack install openmpi
+spack install openmpi %gcc@10.2.1
 ``` 
+
+note that doing `spack install` within an environment does not re-install the software from the beginning, it associates a specific install to your environment 

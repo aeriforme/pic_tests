@@ -1,12 +1,3 @@
----
-title: Basics
-updated: 2022-09-27 15:19:50Z
-created: 2022-09-15 21:13:46Z
-latitude: 45.46542190
-longitude: 9.18592430
-altitude: 0.0000
----
-
 # Goal of these instructions
 help one building and running 3 particle-in-cell codes (WarpX, Smilei and EPOCH) on a laptop with linux or on Cineca supercomputers
 

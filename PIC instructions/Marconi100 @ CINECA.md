@@ -1,12 +1,3 @@
----
-title: Marconi100 @ CINECA
-updated: 2022-09-27 14:44:37Z
-created: 2022-09-20 07:04:01Z
-latitude: 45.46542190
-longitude: 9.18592430
-altitude: 0.0000
----
-
 # Build WarpX
 clone repository and move there 
 ```

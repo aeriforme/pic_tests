@@ -1,12 +1,3 @@
----
-title: Smilei on laptop
-updated: 2022-09-27 14:21:03Z
-created: 2022-09-15 16:58:54Z
-latitude: 45.46542190
-longitude: 9.18592430
-altitude: 0.0000
----
-
 # Documentation
 https://smileipic.github.io/Smilei
 

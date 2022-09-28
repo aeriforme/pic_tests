@@ -1,12 +1,3 @@
----
-title: Galileo100 @ CINECA
-updated: 2022-09-27 15:12:48Z
-created: 2022-09-20 07:03:54Z
-latitude: 45.46542190
-longitude: 9.18592430
-altitude: 0.0000
----
-
 # python3 environment
 
 create your own python environment in your $HOME

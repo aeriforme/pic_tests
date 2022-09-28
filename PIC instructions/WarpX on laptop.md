@@ -1,12 +1,3 @@
----
-title: WarpX on laptop
-updated: 2022-09-27 14:20:55Z
-created: 2022-09-15 15:37:08Z
-latitude: 45.46542190
-longitude: 9.18592430
-altitude: 0.0000
----
-
 # Documentation 
 https://ecp-warpx.github.io/
 https://warpx.readthedocs.io/en/latest/
