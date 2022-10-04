@@ -26,15 +26,17 @@ pip3 install ipython
 ``` 
 
 # WarpX
-
 ## Build
+clone repository and move there 
+```
+git clone https://github.com/ECP-WarpX/WarpX.git warpx
+cd warpx
+```
 
 ## Run
 
 ## Post-process
 
-create your own python virtual environment
-pip3 install ipython
 
 # Smilei
 ## Build
@@ -43,15 +45,62 @@ download the source code in your `$HOME`
 git clone https://github.com/SmileiPIC/Smilei.git smilei
 ```
 
+create a `smilei.profile` file in your `$HOME` with the following lines
+```
+module purge 
+module load intel/oneapi-2021--binary
+module load intelmpi/oneapi-2021--binary
+module load libszip/2.1.1--gcc--10.2.0
+module load zlib/1.2.11--gcc--10.2.0
+module load hdf5/1.10.7--intelmpi--oneapi-2021--binary
+module load anaconda3/2020.07--gcc--8.3.1
+export PYTHONEXE=python3
+export HDF5_ROOT_DIR=/cineca/prod/opt/libraries/hdf5/1.10.7/intelmpi--oneapi-2021--binary/
+export SMILEICXX=mpiicpc
+```
+
+and source it
+```
+source $HOME/smilei.profile
+``` 
+
 move to the right directory
 ```
 cd smilei
 ``` 
 
+compile 
+```
+make -j 8
+```
+if successful, you'll find the executable `smilei` in the current directory 
+another executable `smilei_test` is generated to be run in test mode (e.g. check that the input file is ok)
 
 ## Run
 
 ## Post-process
+load `smilei.profile` and your python environment, then move to the source directory
+```
+source $HOME/smilei.profile
+source $HOME/myenv/bin/activate
+cd $HOME/smilei
+```
+
+build the post-processing python package `happi`
+```
+make happi
+```
+a message like this should appear
+```
+Installing /g100/home/userexternal/<username>/.local/lib/python3.8/site-packages/smilei.pth
+```
+
+copy the smilei.pth path in the correct directory of your python environment 
+```
+cp /g100/home/userexternal/<username>/.local/lib/python3.8/site-packages/smilei.pth $HOME/myenv/lib/python3.8/site-packages
+```
+
+now you should be able to `import happi` in a python shell or script 
 
 # EPOCH
 ## Build
@@ -81,14 +130,14 @@ make -j8 COMPILER=intel
 
 the executable should be generated in `epoch/epoch2d/bin`
 
-# Run
+## Run
 create a directory in $CINECA_SCRATCH
 cd $CINECA_SCRATCH
 mkdir epoch_tests
 
 copy an input file in this directory 
 
-# Post-process EPOCH data
+## Post-process 
 source your python3 environment 
 move to any epoch source directory (e.g. `epoch/epoch2d`) and type
 ```

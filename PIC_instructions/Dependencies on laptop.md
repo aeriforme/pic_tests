@@ -8,10 +8,17 @@ https://spack-tutorial.readthedocs.io/en/latest/
 
 # Why
 * useful to install dependencies 
-* used on HPC systems 
-* same package can be installed with different dependencies 
-* environments 
+* used also on HPC systems 
+* same package can be installed with different dependencies, compilers, options
+* environments can make the workflow conveniently modular 
 
+however you can **avoid** using Spack by installing the dependencies 
+
+
+# From source or via apt 
+
+
+# Spack
 # Install 
 clone Spack repository 
 ```
