@@ -8,10 +8,17 @@ https://spack-tutorial.readthedocs.io/en/latest/
 
 # Why
 * useful to install dependencies 
-* used on HPC systems 
-* same package can be installed with different dependencies 
-* environments 
+* used also on HPC systems 
+* same package can be installed with different dependencies, compilers, options
+* environments can make the workflow conveniently modular 
 
+however you can **avoid** using Spack by installing the dependencies 
+
+
+# From source or via apt 
+
+
+# Spack
 # Install 
 clone Spack repository 
 ```
@@ -100,7 +107,6 @@ spack install cmake@3.23.3 %gcc@10.2.1
 spack install openmpi %gcc@10.2.1
 spack install hdf5+mpi ^openmpi %gcc@10.2.1
 spack install adios2+mpi ^openmpi %gcc@10.2.1
-spack install py-ipython %gcc@10.2.1
 spack install openpmd-api +python -adios1 +adios2 -hdf5 +mpi %gcc@10.2.1
 ```
 
@@ -124,6 +130,11 @@ spacktivate -p myspackwarpx
 to list all the environments you have in your system do this 
 ```
 spack env list
+``` 
+
+to check what environment you are in, do 
+```
+spack env status
 ``` 
 
 to deactivate
