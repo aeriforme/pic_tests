@@ -1,5 +1,7 @@
 *.png
 *.pdf
+__pycache__/
+
 
 smilei
 !smilei/
@@ -10,6 +12,7 @@ smilei.py
 
 epoch1d
 epoch2d
+epoch3d
 deck.status
 epoch*d.dat
 *.visit
@@ -22,3 +25,4 @@ warpx.1*
 *.bp
 *.pmd
 warpx_used_inputs
+Backtrace*
