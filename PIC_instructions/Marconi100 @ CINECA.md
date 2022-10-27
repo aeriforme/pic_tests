@@ -143,7 +143,6 @@ and the openpmd api
 pip3 install openpmd-api
 ``` 
 
-
 ## vtk 
 if you need vtk, you have to install it from source 
 follow the instructions here 

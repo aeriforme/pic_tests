@@ -1,30 +1,35 @@
-# What
-software to install other software
+You can choose to install the main dependencies 
+* from source
+* via the package manager of your system
+* using Spack (another package management tool) 
 
-# Documentation
+# Via apt or source 
+on a Debian or Ubuntu machine install the following software 
+```
+sudo apt-get install git python3-h5py python3-ipython python3-pint python3-sphinx python3-matplotlib python3-dev python3-numpy python3-pip build-essential gcc libhdf5-openmpi-dev
+```
+
+you may need to install openmpi and/or hdf5 from source 
+to do that, folllow these instructions: https://smileipic.github.io/Smilei/Use/install_linux.html#troubleshooting
+
+# Spack
+### What
+software to install other software that is useful because 
+*  works on different platforms and environments like Linux machines, macOS and HPC systems (and Windows is work in progress)
+* the same package can be installed using different dependencies, compilers and options without conflicts 
+* environments can make the workflow conveniently modular 
+
+### Documentation
 https://spack.io/
 https://spack.readthedocs.io/en/latest/
 https://spack-tutorial.readthedocs.io/en/latest/
 
-# Why
-* useful to install dependencies 
-* used also on HPC systems 
-* same package can be installed with different dependencies, compilers, options
-* environments can make the workflow conveniently modular 
-
-however you can **avoid** using Spack by installing the dependencies 
-
-
-# From source or via apt 
-
-
-# Spack
-# Install 
+### Install 
 clone Spack repository 
 ```
 git clone -c feature.manyFiles=true https://github.com/spack/spack.git spack
 ```
-move to spack directory 
+move to Spack directory 
 ```
 cd spack
 ```
@@ -35,7 +40,7 @@ source share/spack/setup-env.sh
 
 you can add the source line in your `.bashrc` to avoid having to do it every time 
 
-# Usage
+### Usage
 add your compilers 
 ```
 spack compiler find
@@ -101,16 +106,35 @@ spack install hdf5~mpi
 `+` = enable variant
 `-` or `~` = disable variant 
 
-# Do this
+### What to install
+Install the following packages 
 ```
 spack install cmake@3.23.3 %gcc@10.2.1
 spack install openmpi %gcc@10.2.1
 spack install hdf5+mpi ^openmpi %gcc@10.2.1
 spack install adios2+mpi ^openmpi %gcc@10.2.1
-spack install openpmd-api +python -adios1 +adios2 -hdf5 +mpi %gcc@10.2.1
+spack install openpmd-api+mpi+python+adios2-adios1 %gcc@10.2.1  
+spack install py-pip
 ```
 
-# Environments
+if you want to use 
+pip install matplotlib numpy scipy ipython pint sphinx h5py openpmd-api 
+
+
+cmake and openmpi (plus git and a C++ compiler) are dependencies common to the 3 PIC codes (WarpX, Smilei and EPOCH)
+hdf5 is mandatory for Smilei and optional for WarpX
+adios2 is optional for WarpX
+
+note: WarpX itself also exists as a Spack package 
+```
+spack info warpx
+``` 
+to install, do for example
+```
+spack install warpx +sensei dims=2 compute=omp
+``` 
+
+### Environments
 create one environment for every pic code 
 ```
 spack env create myspackwarpx
