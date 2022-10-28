@@ -47,7 +47,12 @@ mpirun -np 4 ./warpx.2d.MPI.OMP.DP.PDP.OPMD.QED input.txt warpx.numprocs = 1 4
 note that the `warpx.numprocs` flag is optional
 
 # Analyze
-once you activate your spack environment, you should already have the necessary sofware to post-proces warpx data, i.e. in a python file you can now do 
+install openpmd as
+```
+pip install openpmd-api
+```
+
+now you should have the necessary software to post-process warpx data with python, i.e. in a python file you can now do 
 ```
 import openpmd_api as io
 ```
@@ -55,3 +60,6 @@ import openpmd_api as io
 refer to:
 http://www.openpmd.org/
 https://openpmd-api.readthedocs.io/en/latest/
+
+
+# Build and run on GPU

@@ -59,14 +59,12 @@ import happi
 copy the executable (smilei) and an input file (input.py) in a directory (mydir) and move there 
 
 set the number of threads per core depending on the machine 
-you can find out how many threads per core are in your machine with the command `lscpu`
-
-for example, if Thread(s) per core = 2, then
+for example, if Thread(s) per core = 2 (in the output of the `lscpu` command), then
 ```
 export OMP_NUM_THREADS=2
 ```
 
-and if you have Core(s) per socket = 4, you can run on the 4 cores like this  
+and if you have Core(s) per socket = 4, you can run on the 4 cores like this 
 ```
 mpirun -np 4 ./smilei input.py
 ```
