@@ -52,7 +52,7 @@ y_spot = 0.5*Ly
  
 # PLASMA
 ne_f = 0.1
-ne_s = 30.
+ne_s = 25.
 ne_c= 50
 foam_thick=20*micron;
 subs_thick=1*micron;
@@ -74,7 +74,14 @@ A_s=11.
 Z_c=1.
 A_c=1.
 
-nppc = 8. #number of particles per cell
+#number of particles per cell
+nppc_ef = 8. 
+nppc_if = 2. 
+nppc_es = 8. 
+nppc_is = 2. 
+nppc_ec = 16. 
+nppc_ic = 16. 
+#nppc=8
 
 temp = 10./mc2
 
@@ -176,7 +183,7 @@ Species(
     momentum_initialization = 'maxwell-juettner' ,
     temperature = [temp],
     mean_velocity = [0.],
-    particles_per_cell = nppc,
+    particles_per_cell = nppc_ef,
     mass = 1.,
     charge = -1.,
     number_density = ele_dens_foam,
@@ -184,21 +191,21 @@ Species(
     pusher = "boris"
 )
 
-Species(
-    name = 'ele_f_test' ,
-    position_initialization = 'random' ,
-    momentum_initialization = 'maxwell-juettner' ,
-    temperature = [temp],
-    mean_velocity = [0.],
-    particles_per_cell = 1,
-    mass = 1.,
-    charge = -1.,
-    number_density = ele_dens_foam,
-    boundary_conditions =[['remove'],['periodic']],
-    is_test = True,
-    pusher = "boris"
-
-)
+#Species(
+#    name = 'ele_f_test' ,
+#    position_initialization = 'random' ,
+#    momentum_initialization = 'maxwell-juettner' ,
+#    temperature = [temp],
+#    mean_velocity = [0.],
+#    particles_per_cell = 1,
+#    mass = 1.,
+#    charge = -1.,
+#    number_density = ele_dens_foam,
+#    boundary_conditions =[['remove'],['periodic']],
+#    is_test = True,
+#    pusher = "boris"
+#
+#)
 
 Species(
     name = 'ele_s' ,
@@ -206,7 +213,7 @@ Species(
     momentum_initialization = 'maxwell-juettner' ,
     temperature = [temp],
     mean_velocity = [0.],
-    particles_per_cell = nppc,
+    particles_per_cell = nppc_es,
     mass = 1.,
     charge = -1.,
     number_density = ele_dens_subs,
@@ -215,20 +222,20 @@ Species(
 )
 
 
-Species(
-    name = 'ele_s_test' ,
-    position_initialization = 'random' ,
-    momentum_initialization = 'maxwell-juettner' ,
-    temperature = [temp],
-    mean_velocity = [0.],
-    particles_per_cell = 1,
-    mass = 1.,
-    charge = -1.,
-    number_density = ele_dens_subs,
-    boundary_conditions =[['remove'],['periodic']],
-    pusher = "boris",
-    is_test = True
-)
+#Species(
+#    name = 'ele_s_test' ,
+#    position_initialization = 'random' ,
+#    momentum_initialization = 'maxwell-juettner' ,
+#    temperature = [temp],
+#    mean_velocity = [0.],
+#    particles_per_cell = 1,
+#    mass = 1.,
+#    charge = -1.,
+#    number_density = ele_dens_subs,
+#    boundary_conditions =[['remove'],['periodic']],
+#    pusher = "boris",
+#    is_test = True
+#)
 
 
 Species(
@@ -237,7 +244,7 @@ Species(
     momentum_initialization = 'maxwell-juettner' ,
     temperature = [temp],
     mean_velocity = [0.],
-    particles_per_cell = nppc,
+    particles_per_cell = nppc_ec,
     mass = 1.,
     charge = -1.,
     number_density = ele_dens_cont,
@@ -251,7 +258,7 @@ Species(
     position_initialization = 'random' ,
     momentum_initialization = 'cold',
     mean_velocity = [0.],
-    particles_per_cell = nppc ,
+    particles_per_cell = nppc_if ,
     mass = A_f * 1836. ,
     charge = Z_f ,
     number_density = ion_dens_foam,
@@ -264,7 +271,7 @@ Species(
     position_initialization = 'random' ,
     momentum_initialization = 'cold',
     mean_velocity = [0.],
-    particles_per_cell = nppc ,
+    particles_per_cell = nppc_is ,
     mass = A_f * 1836. ,
     charge = Z_f ,
     number_density = ion_dens_subs,
@@ -278,7 +285,7 @@ Species(
     position_initialization = 'random' ,
     momentum_initialization = 'cold',
     mean_velocity = [0.],
-    particles_per_cell = nppc ,
+    particles_per_cell = nppc_ic ,
     mass = A_c * 1836. ,
     charge = Z_c ,
     number_density = ion_dens_cont,
@@ -286,19 +293,19 @@ Species(
     pusher = "boris"
 )
 
-Species(
-    name = 'ion_c_test',
-    position_initialization = 'random' ,
-    momentum_initialization = 'cold',
-    mean_velocity = [0.],
-    particles_per_cell = 1 ,
-    mass = A_c * 1836. ,
-    charge = Z_c ,
-    number_density = ion_dens_cont,
-    boundary_conditions =[['reflective'],['periodic']],
-    pusher = "boris",
-    is_test = True
-)
+#Species(
+#    name = 'ion_c_test',
+#    position_initialization = 'random' ,
+#    momentum_initialization = 'cold',
+#    mean_velocity = [0.],
+#    particles_per_cell = 1 ,
+#    mass = A_c * 1836. ,
+#    charge = Z_c ,
+#    number_density = ion_dens_cont,
+#    boundary_conditions =[['reflective'],['periodic']],
+#    pusher = "boris",
+#    is_test = True
+#)
 
 
 
@@ -350,3 +357,9 @@ DiagParticleBinning(
     axes = [ ["ekin",    0.1*mc2,	40*mc2,   100, "logscale"] ]
 )
 
+
+DiagPerformances(
+    every = 1000,
+#    flush_every = 100,
+#    patch_information = True,
+)
