@@ -7,22 +7,27 @@ smilei
 !smilei/
 patch_load.txt
 profil.txt
-scalars.tx
+scalars.txt
 smilei.py
+*h5
 
 epoch1d
 epoch2d
 epoch3d
 deck.status
-epoch*d.dat
+epoch1d.dat
+epoch2d.dat
+epoch3d.dat
 *.visit
+*sdf
 
 diags/
+warpx.3*
 warpx.2*
 warpx.1*
-*.h5
-*.sdf
 *.bp
 *.pmd
 warpx_used_inputs
 Backtrace*
+
+
