@@ -1,0 +1,250 @@
+##################################
+########### PARAMETERS ###########
+##################################
+# GENERAL PARAMETERS
+my_constants.lambda = 0.8e-6
+my_constants.mc2 = 0.510998950e6
+my_constants.pemr = 1836.15267343
+my_constants.n_crit = (m_e*epsilon0*(2*pi*clight)^2)/((q_e*lambda)^2)
+my_constants.fs = 1.0e-15
+my_constants.um = 1.0e-6
+
+# BOX
+my_constants.Lx = 70*um
+my_constants.Ly = 30*um
+my_constants.resx = 20. # pxmicron
+my_constants.resy = 20.
+my_constants.nx = Lx*resx/um
+my_constants.ny = Ly*resy/um
+
+# TIME 
+my_constants.Tsim = 1.5*Lx/clight
+my_constants.dt_multi = 0.98
+my_constants.dt = um/clight*dt_multi/sqrt(resx^2+resy^2)
+
+# LASER PARAMETERS
+my_constants.a0 = 20 
+my_constants.waist = 3*um
+my_constants.intensity_fwhm = 30.0*fs
+my_constants.field_fwhm = intensity_fwhm*sqrt(2) 
+my_constants.delay_peak = 60.0*fs 
+my_constants.focal_dist = Lx*0.5 
+my_constants.laser_length = 2*clight*field_fwhm 
+
+# PLASMA PARAMETERS 
+my_constants.temp = 10.0
+my_constants.foam_thick = 20*um
+my_constants.subs_thick = 1*um
+my_constants.cont_thick = 0.1*um
+my_constants.foam_start = laser_length 
+my_constants.foam_end = foam_start + foam_thick
+my_constants.subs_start = foam_end
+my_constants.subs_end =  subs_start + subs_thick
+my_constants.cont_start = subs_end
+my_constants.cont_end = cont_start + cont_thick
+my_constants.Zf = 1.0
+my_constants.Af = 2.0
+my_constants.Zs = 5.0
+my_constants.As = 11.0
+my_constants.Zc = 1.0
+my_constants.Ac = 1.0 
+my_constants.nppc = 8
+my_constants.nef = 0.1*n_crit
+my_constants.nes = 25*n_crit 
+my_constants.nec = 50*n_crit 
+my_constants.nppc_ef = 8. 
+my_constants.nppc_if = 2. 
+my_constants.nppc_es = 8. 
+my_constants.nppc_is = 2. 
+my_constants.nppc_ec = 16. 
+my_constants.nppc_ic = 16. 
+
+# DIAGNOSTIC PARAMETERS
+my_constants.every_fs = floor(fs/dt)
+my_constants.timescalar = 1*every_fs
+my_constants.timefields = 10*every_fs
+
+#################################
+############# SETUP #############
+#################################
+stop_time = Tsim
+amr.n_cell = nx ny
+amr.max_level = 0 
+geometry.dims   = 2
+geometry.prob_lo = 0. 0.
+geometry.prob_hi = Lx Ly 
+
+#################################
+####### Boundary condition ######
+#################################
+boundary.field_lo = pml Periodic 
+boundary.field_hi = pml Periodic 
+boundary.particle_lo = Reflecting Periodic 
+boundary.particle_hi = Reflecting Periodic 
+
+#################################
+############ NUMERICS ###########
+#################################
+warpx.verbose = 1
+warpx.do_dive_cleaning = 0
+warpx.use_filter = 0
+warpx.cfl = dt_multi
+algo.particle_shape = 3
+algo.maxwell_solver = yee
+algo.current_deposition = esirkepov
+algo.particle_pusher = boris 
+algo.field_gathering = energy-conserving 
+
+####################################
+############ PERFORMANCE ###########
+####################################
+algo.load_balance_intervals = 0
+algo.load_balance_costs_update = Heuristic
+amr.max_grid_size = 2048
+amr.blocking_factor = 4
+warpx.verbose = 1
+amrex.abort_on_out_of_gpu_memory = 1
+warpx.do_dynamic_scheduling = 1
+
+#################################
+############# LASER #############
+#################################
+lasers.names = laser1
+laser1.position = Lx/nx 0. Ly*0.5
+laser1.direction = 1. 0. 0.    
+laser1.polarization = 0. 0. 1.     
+laser1.a0 = a0
+laser1.wavelength = lambda
+laser1.profile = Gaussian
+laser1.profile_waist = waist      
+laser1.profile_duration = intensity_fwhm/1.17741
+laser1.profile_t_peak = delay_peak    
+laser1.profile_focal_distance = focal_dist
+
+#################################
+############# PLASMA ############
+#################################
+particles.species_names= elef eles elec ionf ions ionc
+
+
+# ELECTRONS FOAM
+elef.species_type=electron
+elef.injection_style=NRandomPerCell
+elef.num_particles_per_cell=nppc_ef
+elef.initialize_self_fields=0
+elef.profile=constant
+elef.density= nef
+elef.momentum_distribution_type=maxwell_boltzmann
+elef.theta_distribution_type=constant
+elef.beta_distribution_type=constant
+elef.theta= temp/mc2
+elef.beta=0.0
+elef.do_qed_quantum_sync=0
+elef.xmin=foam_start
+elef.xmax=foam_end
+
+# ELECTRONS SUBS
+eles.species_type=electron
+eles.injection_style=NRandomPerCell
+eles.num_particles_per_cell=nppc_es
+eles.initialize_self_fields=0
+eles.profile=constant
+eles.density= nes
+eles.momentum_distribution_type=maxwell_boltzmann
+eles.theta_distribution_type=constant
+eles.beta_distribution_type=constant
+eles.theta= temp/mc2
+eles.beta=0.0
+eles.do_qed_quantum_sync=0
+eles.xmin=subs_start
+eles.xmax=subs_end
+
+# ELECTRONS CONT
+elec.species_type=electron
+elec.injection_style=NRandomPerCell
+elec.num_particles_per_cell=nppc_ec
+elec.initialize_self_fields=0
+elec.profile=constant
+elec.density= nec
+elec.momentum_distribution_type=maxwell_boltzmann
+elec.theta_distribution_type=constant
+elec.beta_distribution_type=constant
+elec.theta= temp/mc2
+elec.beta=0.0
+elec.do_qed_quantum_sync=0
+elec.xmin=cont_start
+elec.xmax=cont_end
+
+
+# IONS FOAM
+ionf.charge=Zf*q_e
+ionf.mass=Af*m_u
+ionf.injection_style=NRandomPerCell
+ionf.num_particles_per_cell=nppc_if
+ionf.initialize_self_fields=0
+ionf.profile=constant
+ionf.density= nef/Zf
+ionf.momentum_distribution_type=at_rest
+ionf.xmin=foam_start
+ionf.xmax=foam_end
+
+# IONS SUBS
+ions.charge=Zs*q_e
+ions.mass=As*m_u
+ions.injection_style=NRandomPerCell
+ions.num_particles_per_cell=nppc_is
+ions.initialize_self_fields=0
+ions.profile=constant
+ions.density= nes/Zs
+ions.momentum_distribution_type=at_rest
+ions.xmin=subs_start
+ions.xmax=subs_end
+
+# IONS CONT
+ionc.charge=Zc*q_e
+ionc.mass=Ac*m_u
+ionc.injection_style=NRandomPerCell
+ionc.num_particles_per_cell=nppc_ic
+ionc.initialize_self_fields=0
+ionc.profile=constant
+ionc.density= nec/Zc
+ionc.momentum_distribution_type=at_rest
+ionc.xmin=cont_start
+ionc.xmax=cont_end
+
+
+
+#################################
+############# OUTPUT ############
+#################################
+# FIELDS
+diagnostics.diags_names = Fields
+Fields.format=openpmd
+Fields.openpmd_backend=bp
+Fields.openpmd_encoding=f
+Fields.intervals = timefields
+Fields.diag_type = Full
+Fields.dump_last_timestep = 1
+Fields.fields_to_plot = Ez By rho_elef rho_eles rho_elec rho_ionf rho_ions rho_ionc
+
+# SCALARS
+warpx.reduced_diags_names = FieldEnergy FieldMomentum FieldMaximum ParticleExtrema ParticleEnergy ParticleMomentum RhoMaximum ParticleNumber
+FieldEnergy.type= FieldEnergy
+FieldEnergy.intervals=timescalar
+FieldMomentum.type= FieldMomentum
+FieldMomentum.intervals=timescalar
+FieldMaximum.type= FieldMaximum
+FieldMaximum.intervals=timescalar
+ParticleExtrema.type= ParticleExtrema
+ParticleExtrema.intervals=timescalar
+ParticleExtrema.species= ele ion
+ParticleEnergy.type= ParticleEnergy
+ParticleEnergy.intervals=timescalar
+ParticleMomentum.type= ParticleMomentum
+ParticleMomentum.intervals=timescalar
+RhoMaximum.type= RhoMaximum
+RhoMaximum.intervals=timescalar
+ParticleNumber.type= ParticleNumber
+ParticleNumber.intervals=timescalar
+
+
