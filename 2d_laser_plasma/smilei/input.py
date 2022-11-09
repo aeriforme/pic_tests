@@ -144,9 +144,9 @@ Species(
 # OUTPUTS #####
 ###############
 
-DiagScalar(every=2*every_fs)
+DiagScalar(every=1*every_fs)
 
 DiagFields(
     every =10*every_fs,
-    fields = ['Bz', 'Rho_ele']
+    fields = ['Ey','Bz', 'Rho_ele']
 )

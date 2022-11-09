@@ -27,9 +27,10 @@ my_constants.a0 = 20
 my_constants.waist = 3*um
 my_constants.intensity_fwhm = 30.0*fs
 my_constants.field_fwhm = intensity_fwhm*sqrt(2) 
-my_constants.delay_peak = 60.0*fs 
-my_constants.focal_dist = Lx*0.5 
-my_constants.laser_length = 2*clight*field_fwhm 
+my_constants.delay_peak = 60.0*fs
+my_constants.laser_length = 2*clight*field_fwhm  
+my_constants.focal_dist = laser_length 
+
 
 # PLASMA PARAMETERS 
 my_constants.temp = 10.0 
@@ -82,7 +83,7 @@ algo.load_balance_intervals = 0
 algo.load_balance_costs_update = Heuristic
 amr.max_grid_size = 2048
 amr.blocking_factor = 4
-warpx.verbose = 1
+#warpx.verbose = 1
 amrex.abort_on_out_of_gpu_memory = 1
 warpx.do_dynamic_scheduling = 1
 
