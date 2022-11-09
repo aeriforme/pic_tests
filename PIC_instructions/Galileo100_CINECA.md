@@ -4,43 +4,109 @@ check out the instructions related to cineca
 
 # WarpX
 ## Build
-clone repository and move there 
+create a `warpx.profile` file in your `$HOME` with the following lines
+```bash
+module purge
+module load gcc/10.2.0
+module load cmake/3.21.4
+module load profile/advanced
+module load openmpi/4.1.1--gcc--10.2.0-cuda--11.1.0
+module load zlib/1.2.11--gcc--10.2.0
+module load adios/1.13.1--openmpi--4.1.1--gcc--10.2.0-cuda--11.1.0
+module load boost/1.74.0--openmpi--4.1.1--gcc--10.2.0-cuda--11.1.0
 ```
+
+source the file with 
+```bash
+source $HOME/warpx.profile
+```
+
+clone repository and move there 
+```bash
 git clone https://github.com/ECP-WarpX/WarpX.git warpx
 cd warpx
 ```
 
-create a `warpx.profile` file in your `$HOME` with the following lines
-
+then configure build
+```bash
+cmake -S . -B build
 ```
-module purge
-module load intel/oneapi-2021--binary
-module load intelmpi/oneapi-2021--binary
-module load cmake/3.21.4
-module load zlib/1.2.11--gcc--10.2.0
-module load libszip/2.1.1--gcc--10.2.0
-module load hdf5/1.10.7--intelmpi--oneapi-2021--binary
-module load boost/1.68.0--intelmpi--oneapi-2021--binary
-module load libffi/3.3--oneapi--2021.2.0
-module load bzip2/1.0.8--oneapi--2021.2.0
-module load adios2/2.5.0--intelmpi--oneapi-2021--binary
 
-export ADIOS2_DIR=$ADIOS2_HOME
+setup the compiling options (e.g. dimensionality, QED, table generation)
+since not all the nodes in Galileo100 have GPUs, set `WarpX_COMPUTE = OMP` 
+```bash
+ccmake build
+``` 
+
+finalize building
+```bash
+cmake --build build -j 4
+```
+
+if successful the executable will be in `warpx/build/bin`
+
+if you have problems with the pre-installed adios, you may want to try and install it by hand by following the instructions here: https://adios2.readthedocs.io/en/latest/setting_up/setting_up.html#install-from-source
+
+```bash
+git clone https://github.com/ornladios/ADIOS2.git ADIOS2
+mkdir ADIOS2-build
+cd ADIOS2-build
+cmake -DCMAKE_INSTALL_PREFIX=$HOME/ADIOS2-install ../ADIOS2
+make -j 32
+make install
 ```
 
 ## Run
-## Post-process
+move to `$CINECA_SCRACTH` and create a directory `MYDIR` there
+then create a file `job.sh` with the following lines 
+```bash
+#!/bin/bash
+#SBATCH --time=04:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=31200MB 
+#SBATCH -p g100_all_serial
+#SBATCH --job-name=job_warpx
+#SBATCH --err=warpx.err
+#SBATCH --out=warpx.out
+#SBATCH --account=pMI22_EneDa
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=mymail@mymail.com
 
+export MYDIR=path/to/your/simulation/directory
+cd $CINECA_SCRATCH/$MYDIR
+source $HOME/warpx.profile
+
+export OMP_SCHEDULE=dynamic
+export OMP_NUM_THREADS=1
+
+srun --cpu-bind=cores $HOME/warpx/build/bin/warpx.2d.MPI.OMP.DP.PDP.OPMD.QED.GENQEDTABLES input.txt > output.txt
+```
+
+submit your job with 
+```bash
+sbatch job.sh
+```
+
+## Post-process
+you should already have installed the openpmd-api 
+otherwise you can load your python environment and use pip
+
+```bash
+source $HOME/myenv/bin/activate
+pip install openpmd-api
+```
 
 # Smilei
 ## Build
 download the source code in your `$HOME`
-```
+```bash
 git clone https://github.com/SmileiPIC/Smilei.git smilei
 ```
 
 create a `smilei.profile` file in your `$HOME` with the following lines
-```
+```bash
 module purge 
 module load intel/oneapi-2021--binary
 module load intelmpi/oneapi-2021--binary
@@ -54,17 +120,17 @@ export SMILEICXX=mpiicpc
 ```
 
 and source it
-```
+```bash
 source $HOME/smilei.profile
 ``` 
 
 move to the right directory
-```
+```bash
 cd smilei
 ``` 
 
 compile 
-```
+```bash
 make -j 8
 ```
 if successful, you'll find the executable `smilei` in the current directory 
@@ -142,23 +208,23 @@ https://smileipic.github.io/Smilei/Understand/parallelization.html#practical-set
 
 ## Post-process
 load `smilei.profile` and your python environment, then move to the source directory
-```
+```bash
 source $HOME/smilei.profile
 source $HOME/myenv/bin/activate
 cd $HOME/smilei
 ```
 
 build the post-processing python package `happi`
-```
+```bash
 make happi
 ```
 a message like this should appear
-```
+```bash
 Installing /g100/home/userexternal/<username>/.local/lib/python3.8/site-packages/smilei.pth
 ```
 
 copy the smilei.pth path in the correct directory of your python environment 
-```
+```bash
 cp /g100/home/userexternal/<username>/.local/lib/python3.8/site-packages/smilei.pth $HOME/myenv/lib/python3.8/site-packages
 ```
 
@@ -167,12 +233,12 @@ now you should be able to `import happi` in a python shell or script &rarr; you 
 # EPOCH
 ## Build
 clone the repository
-```
+```bash
 git clone --recursive https://github.com/Warwick-Plasma/epoch.git
 ```
 
 create a `epoch.profile` file in your `$HOME` with the following lines
-```
+```bash
 module purge
 module load intel/oneapi-2022--binary
 module load intelmpi/oneapi-2022--binary
@@ -180,12 +246,12 @@ module load python/3.8.12--intel--2021.4.0
 ```
 
 then move to the target directory, e.g.
-```
+```bash
 cd epoch/epoch2d
 ```
 
 and compile by typing
-```
+```bash
 source $HOME/epoch.profile
 make -j8 COMPILER=intel
 ```

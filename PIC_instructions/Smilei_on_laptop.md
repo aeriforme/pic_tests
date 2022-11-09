@@ -1,7 +1,7 @@
 # Documentation
 https://smileipic.github.io/Smilei
 
-# Build 
+# Build on Linux
 download the source code
 ```
 git clone https://github.com/SmileiPIC/Smilei.git smilei
@@ -54,6 +54,27 @@ in a python script you can now do
 ```
 import happi
 ```
+
+# Build on Mac
+https://smileipic.github.io/Smilei/Use/install_macos.html#brew-install-smilei
+
+install homebrew 
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+install dependencies 
+```
+brew install iltommi/brews/smilei --HEAD --only-dependencies
+```
+
+update profile `~/bash_profile` or `~/zprofile` (you may need to change the `g++-11` to some other version you have on your laptop)
+```
+export OMPI_CXX=g++-11
+export HDF5_ROOT_DIR=`brew --prefix`/opt/hdf5-parallel
+export PYTHONEXE=python3
+```
+
 
 # Run 
 copy the executable (smilei) and an input file (input.py) in a directory (mydir) and move there 

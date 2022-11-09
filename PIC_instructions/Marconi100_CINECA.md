@@ -39,6 +39,11 @@ module load zlib/1.2.11--gnu--8.4.0
 export ADIOS2_DIR=/m100_work/pMI21_EneDa_0/aforment/spack-0.14/install/linux-rhel8-power9le/gcc-8.4.0/adios2-2.5.0-5buwthqfrizkisr4xsba6g6bmeb4hvau
 ```
 
+source the file with 
+```
+source $HOME/warpx.profile
+```
+
 then configure build
 ```
 cmake -S . -B build
