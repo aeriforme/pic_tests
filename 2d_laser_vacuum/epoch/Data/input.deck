@@ -34,7 +34,7 @@ begin:constant
   gouy = 0.5*atan(d_spot/x_R)
 
 # DIAGNOSTICS
-  every_fs = 1*femto/dt
+  every_fs = floor(1*femto/dt)
   timescalars = 1*every_fs
   timefields = 10*every_fs
 

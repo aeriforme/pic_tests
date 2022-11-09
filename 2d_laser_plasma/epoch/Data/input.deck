@@ -43,7 +43,7 @@ begin:constant
   target_start = laser_length 
 
 # DIAGNOSTICS
-  every_fs = 1*femto/dt
+  every_fs = floor(1*femto/dt)
   timescalars = 1*every_fs
   timefields = 10*every_fs
 

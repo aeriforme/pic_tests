@@ -19,6 +19,7 @@ if os.path.exists(plot_dir) is False:
 #__________________________________________________________
 lambda_SI = 0.8*micron # wavelength
 omega_SI = 2.0*pi*c / lambda_SI
+fs = 1.e-15 * omega_SI;
 n_crit = 1.1*1e21 / centi**(3) * (1.e-6/lambda_SI)**(2) #m^-3
 my_dpi = 300 
 
@@ -44,15 +45,16 @@ times = steps * dt/femto
 
 steps = np.arange(0,nsteps,out_freq)
 
-# warpx
-#warpx_dir='./warpx/diags/reducedfiles'
-#data_w = np.loadtxt(warpx_dir+'/FieldEnergy.txt')  
-#times_w = data_w[:,1]/femto
-#Uelm_w = data_w[:,2]
-#
-#Ukin_w = np.loadtxt(warpx_dir+'/ParticleEnergy.txt')
-#Ukine_w = Ukin_w[:,3]
-#Ukini_w = Ukin_w[:,4]
+#warpx
+warpx_dir='./warpx/diags/reducedfiles'
+data_w = np.loadtxt(warpx_dir+'/FieldEnergy.txt')  
+times_w = data_w[:,1]/femto
+Uelm_w = data_w[:,2]
+
+Ukin_w = np.loadtxt(warpx_dir+'/ParticleEnergy.txt')
+Ukin_ef_w = Ukin_w[:,3]
+Ukin_es_w = Ukin_w[:,4]
+Ukin_ic_w = Ukin_w[:,8]
 
 
 #smilei 
@@ -60,7 +62,7 @@ smilei_dir = './smilei'
 s = happi.Open(smilei_dir) 
 
 data_s = s.Scalar(scalar='Uelm', units=['J/m', 'fs'])
-times_s = data_s.getTimes()
+times_s = (data_s.getTimes())
 Uelm_s = data_s.getData()
 
 Ukin_ef_s = s.Scalar(scalar='Ukin_ele_f', units=['J/m', 'fs']).getData()
@@ -93,22 +95,22 @@ for t in range(ndumps):
 my_dpi = 300 
 fig, ax = plt.subplots(ncols=4, nrows=1, figsize=(4000./my_dpi, 1000./my_dpi), dpi=my_dpi, sharex=True)
 
-#ax[0].plot(times_w, Uelm_w, label='WarpX')
+ax[0].plot(times_w, Uelm_w, label='WarpX')
 ax[0].plot(times_s, Uelm_s, label='Smilei')
 ax[0].plot(times_e, Uelm_e, label='EPOCH')
 ax[0].set_title('field energy')
 
-#ax[1].plot(times_w, Ukine_w, label='WarpX')
+ax[1].plot(times_w, Ukin_ef_w, label='WarpX')
 ax[1].plot(times_s, Ukin_ef_s, label='Smilei')
 ax[1].plot(times_e, Ukin_ef_e, label='EPOCH')
 ax[1].set_title('foam electron energy')
 
-#ax[2].plot(times_w, Ukini_w, label='WarpX')
+ax[2].plot(times_w, Ukin_es_w, label='WarpX')
 ax[2].plot(times_s, Ukin_es_s, label='Smilei')
 ax[2].plot(times_e, Ukin_es_e, label='EPOCH')
 ax[2].set_title('subs electron energy')
 
-#ax[2].plot(times_w, Ukini_w, label='WarpX')
+ax[3].plot(times_w, Ukin_ic_w, label='WarpX')
 ax[3].plot(times_s, Ukin_ic_s, label='Smilei')
 ax[3].plot(times_e, Ukin_ic_e, label='EPOCH')
 ax[3].set_title('proton energy')

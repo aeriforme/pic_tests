@@ -88,14 +88,14 @@ for n,ts in enumerate(steps):
     colors[..., -1] = alphas
 
     im=ax[0].imshow(colors, extent=[0,Lx/um,0,Ly/um], cmap='seismic', aspect='equal')
-    ax[0].set_title('smilei, t = %.2f [fs]'% time)
+    #ax[0].set_title('smilei, t = %.2f [fs]'% time)
     divider = make_axes_locatable(ax[0])
     cax = divider.append_axes('bottom', size='5%', pad=1.2)
     fig.colorbar(im, cax=cax, orientation='horizontal', label=r'B$_z$ [T]')
 
 
     # smilei 
-    ne = s.Field(0,'-Rho_ele')
+    ne = s.Field(0,'-Rho_ele',units=["um","fs"])
     time = ne.getTimes()[n]
     ax[1].set_title('smilei, t = %.2f [fs]'% time)
     
