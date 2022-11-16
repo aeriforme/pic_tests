@@ -62,6 +62,22 @@ cmake --build build -j 4
 
 if successful the executable will be in `warpx/build/bin`
 
+Example of `warpx.profile` working for WarpX and ADIOS2 installations:
+```
+module purge
+module load profile/global
+module load cmake/3.24.2
+module load gnu/8.4.0
+module load cuda/11.5
+module load python/3.8.2
+module load spectrum_mpi/10.4.0--binary
+module load boost/1.76.0--spectrum_mpi--10.4.0--binary  
+module load zlib/1.2.11--gnu--8.4.0
+export ADIOS2_DIR=$HOME/ADIOS2/install/
+```
+Then install ADIOS2 following the same instructions of GALILEO100.
+Then install WarpX.
+
 # Run WarpX
 create a directory in `$CINECA_SCRATCH` where you put an input file and a warpx executable, here `warpx.2d.MPI.CUDA.DP.PDP.OPMD.QED.GENQEDTABLE`
 create a job.x file with the following
