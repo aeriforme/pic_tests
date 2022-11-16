@@ -56,6 +56,30 @@ make -j 32
 make install
 ```
 
+Example of `warpx.profile` file working with ADIOS2:
+```bash
+module purge
+module load profile/global
+module load cmake/3.21.4
+module load gcc/10.2.0
+module load openmpi/4.1.1--gcc--10.2.0-cuda-11.5.0
+module load boost/1.77.0--openmpi--4.1.1--gcc--10.2.0
+module load zlib/1.2.11--gcc--10.2.0
+export ADIOS2_DIR=$HOME/ADIOS2/install/
+```
+Instuctions to install ADIOS2:
+```bash
+source ~/warpx.profile
+git clone https://github.com/ornladios/ADIOS2.git ADIOS2
+cd ADIOS2
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=$HOME/ADIOS2/install ..
+make -j 32
+make install
+```
+Then follow the instructions above to install WarpX.
+
 ## Run
 move to `$CINECA_SCRACTH` and create a directory `MYDIR` there
 then create a file `job.sh` with the following lines 
@@ -167,7 +191,7 @@ export OMP_NUM_THREADS=1
 srun --cpu-bind=cores -m block:block $HOME/smilei/smilei input.py > output.txt
 ```
 
-here is an example of what `job.sh` could contain if you want to run on the serial partition on 4 cores with 1 MPI task and 1 OMP thread per core  
+here is an example of what `job.sh` could contain if you want to run on the serial partition on 4 cores with 1 MPI task and 4 OMP thread per core  
 ```bash
 #!/bin/bash
 #SBATCH --time=04:00:00
