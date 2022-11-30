@@ -135,7 +135,7 @@ Species(
     mass = 1.,
     charge = -1.,
     number_density = ele_dens,
-    boundary_conditions =[['remove'],['periodic']],
+    boundary_conditions =[['refelctive'],['periodic']],
     pusher = "boris"
 )
 

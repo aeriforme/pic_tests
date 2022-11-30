@@ -51,7 +51,7 @@ my_constants.Ac = 1.0
 my_constants.nppc = 8
 my_constants.nef = 0.1*n_crit
 my_constants.nes = 25*n_crit 
-my_constants.nec = 50*n_crit 
+my_constants.nec = 5*n_crit 
 my_constants.nppc_ef = 8. 
 my_constants.nppc_if = 2. 
 my_constants.nppc_es = 8. 
@@ -63,6 +63,7 @@ my_constants.nppc_ic = 16.
 my_constants.every_fs = floor(fs/dt)
 my_constants.timescalar = 1*every_fs
 my_constants.timefields = 10*every_fs
+my_constants.timehist = 10*every_fs
 
 #################################
 ############# SETUP #############
@@ -185,7 +186,7 @@ ionf.initialize_self_fields=0
 ionf.profile=constant
 ionf.density= nef/Zf
 ionf.momentum_distribution_type=at_rest
-ionf.xmin=foam_starts
+ionf.xmin=foam_start
 ionf.xmax=foam_end
 
 # IONS SUBS
@@ -220,7 +221,7 @@ ionc.xmax=cont_end
 # FIELDS
 diagnostics.diags_names = Fields
 Fields.format=openpmd
-Fields.openpmd_backend=bp
+Fields.openpmd_backend=h5
 Fields.openpmd_encoding=f
 Fields.intervals = timefields
 Fields.diag_type = Full
@@ -228,7 +229,7 @@ Fields.dump_last_timestep = 1
 Fields.fields_to_plot = Ez By rho_elef rho_eles rho_elec rho_ionf rho_ions rho_ionc
 
 # SCALARS
-warpx.reduced_diags_names = FieldEnergy FieldMomentum FieldMaximum ParticleExtrema ParticleEnergy ParticleMomentum RhoMaximum ParticleNumber
+warpx.reduced_diags_names = FieldEnergy FieldMomentum FieldMaximum ParticleExtrema ParticleEnergy ParticleMomentum RhoMaximum ParticleNumber ParticleHist
 FieldEnergy.type= FieldEnergy
 FieldEnergy.intervals=timescalar
 FieldMomentum.type= FieldMomentum
@@ -246,5 +247,10 @@ RhoMaximum.type= RhoMaximum
 RhoMaximum.intervals=timescalar
 ParticleNumber.type= ParticleNumber
 ParticleNumber.intervals=timescalar
-
-
+ParticleHist.type=ParticleHistogram
+ParticleHist.species=ionc
+ParticleHist.histogram_function(t,x,y,z,ux,uy,uz)=mc2*Ac*pemr*(sqrt(ux*ux+uy*uy+uz*uz+1)-1)
+ParticleHist.bin_number=200 
+ParticleHist.bin_max=40e6
+ParticleHist.bin_min=0 
+ParticleHist.intervals=timehist

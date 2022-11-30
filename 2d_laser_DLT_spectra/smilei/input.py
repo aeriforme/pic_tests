@@ -16,6 +16,7 @@ fs = 1.e-15 * omega_SI
 l0 = 2.*pi # wavelength 
 t0 = 2.*pi # optical cycle 
 mc2 = 0.510998950e6 # MeV
+pemr = 1836.15267343
 
 # BOX 
 dx = micron/20.
@@ -53,7 +54,7 @@ y_spot = 0.5*Ly
 # PLASMA
 ne_f = 0.1
 ne_s = 25.
-ne_c= 50
+ne_c= 5
 foam_thick=20*micron;
 subs_thick=1*micron;
 cont_thick=0.1*micron;
@@ -351,10 +352,10 @@ DiagParticleBinning(
 
 DiagParticleBinning(
     deposited_quantity = "weight",
-    every = 5,
+    every = 10*every_fs,
     time_average = 1,
-    species = ["ele_f","ele_s","ele_c","ion_f","ion_s","ion_c"],
-    axes = [ ["ekin",    0.1*mc2,	40*mc2,   100, "logscale"] ]
+    species = ["ion_c"],
+    axes = [ ["ekin",    0.,	40./0.510998950,   200] ]
 )
 
 

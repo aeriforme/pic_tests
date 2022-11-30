@@ -36,8 +36,8 @@ begin:constant
   gouy = 0.5*atan(d_spot/x_R)
 
 # PLASMA PARAMETERS
-  Z_foam = 1
-  A_foam = 2 
+  Z_foam = 6
+  A_foam = 12 
   Z_subs = 5
   A_subs = 11 
   Z_cont = 1
@@ -86,8 +86,8 @@ begin:boundaries
   bc_x_max_field = simple_outflow
   bc_y_min_field = periodic
   bc_y_max_field = periodic
-  bc_x_min_particle=open 
-  bc_x_max_particle=open
+  bc_x_min_particle=reflect 
+  bc_x_max_particle=reflect
   bc_y_min_particle=periodic
   bc_y_max_particle=periodic
 end:boundaries
