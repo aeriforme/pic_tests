@@ -1,7 +1,0 @@
-Caratteristiche codici: 
-1- tutti paralleli;
-2- epoch permette bremstrallhung ma ha criticità, warpx gira su GPU 
-3- confrontare e capire perché ci sono differenze
- WARPX:
-Per inserire numeri myconstant.ecc =
-Amr sta per AMREX per la gestione di Maxwell(libreria per risolvere eq diff a derivate parziali su griglia)
