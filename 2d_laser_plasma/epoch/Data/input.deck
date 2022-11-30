@@ -66,8 +66,8 @@ begin:boundaries
   bc_x_max_field = simple_outflow
   bc_y_min_field = periodic
   bc_y_max_field = periodic
-  bc_x_min_particle=open 
-  bc_x_max_particle=open
+  bc_x_min_particle=reflect 
+  bc_x_max_particle=reflect
   bc_y_min_particle=periodic
   bc_y_max_particle=periodic
 end:boundaries

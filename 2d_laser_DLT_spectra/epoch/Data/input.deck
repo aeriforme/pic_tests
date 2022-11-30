@@ -5,6 +5,7 @@ begin:constant
   omega_l = 2.0 * pi * c / lambda_l
   n_crit = critical(omega_l)
   optical_cycle = lambda_l / c
+  const = sqrt(80*939)*mev/c
  
 # BOX PARAMETERS
   n_of_um_x = 70 # how many microns
@@ -51,7 +52,7 @@ begin:constant
   
   ne_foam = 0.1*n_crit 
   ne_subs = 25*n_crit 
-  ne_cont = 50*n_crit 
+  ne_cont = 5*n_crit 
   foam_thick = 20*micron
   subs_thick = 1*micron
   cont_thick = 0.1*micron
@@ -66,6 +67,7 @@ begin:constant
   every_fs = floor(1*femto/dt)
   timescalars = 1*every_fs
   timefields = 10*every_fs
+  timehist = 10*every_fs
 
 end:constant
 
@@ -162,11 +164,6 @@ begin:species
    number_density = number_density(ele_cont)/Z_cont
 end:species
 
-
-
-
-
-
 begin:output
   name = scalars
   file_prefix=scalars
@@ -192,5 +189,21 @@ begin:output
   number_density = always + species
 end:output
 
+begin:output
+  name = enehist
+  file_prefix=hist
+  nstep_snapshot = timehist
+  dump_first=T
+  distribution_functions = always
+  ey = always
+end:output
 
-
+begin:dist_fn
+  name = enehist
+  ndims = 1
+  dumpmask = always
+  direction1 = dir_energy
+  range1=(0,40*mev)
+  resolution1 = 200
+  include_species:ion_cont
+end:dist_fn
