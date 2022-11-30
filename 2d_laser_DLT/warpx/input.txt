@@ -185,7 +185,7 @@ ionf.initialize_self_fields=0
 ionf.profile=constant
 ionf.density= nef/Zf
 ionf.momentum_distribution_type=at_rest
-ionf.xmin=foam_starts
+ionf.xmin=foam_start
 ionf.xmax=foam_end
 
 # IONS SUBS
@@ -220,7 +220,7 @@ ionc.xmax=cont_end
 # FIELDS
 diagnostics.diags_names = Fields
 Fields.format=openpmd
-Fields.openpmd_backend=bp
+Fields.openpmd_backend=h5
 Fields.openpmd_encoding=f
 Fields.intervals = timefields
 Fields.diag_type = Full

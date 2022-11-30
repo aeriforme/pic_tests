@@ -63,7 +63,7 @@ begin:constant
   x_cont_end = x_cont_start + cont_thick
 
 # DIAGNOSTICS
-  every_fs = 1*femto/dt
+  every_fs = floor(1*femto/dt)
   timescalars = 1*every_fs
   timefields = 10*every_fs
 

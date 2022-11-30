@@ -45,7 +45,7 @@ steps = np.arange(0,nsteps,out_freq)
 
 # warpx
 warpx_dir='./warpx/diags/Fields'
-series = io.Series(warpx_dir+"/openpmd_%T.bp",io.Access.read_only)
+series = io.Series(warpx_dir+"/openpmd_%T.h5",io.Access.read_only)
 #for n,ts in enumerate(series.iterations):
 
 #smilei 
